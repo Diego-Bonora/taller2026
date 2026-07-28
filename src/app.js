@@ -1,9 +1,7 @@
-import {
-  CATALOGO_HABITACIONES,
-  OPINIONES_INICIALES,
-  validarLogin,
-  validarReserva,
-} from "./core/reservas.js";
+import { validarLogin } from "./core/login.js";
+import { CATALOGO_HABITACIONES, validarReserva, buscarHabitacion } from "./core/reservas.js";
+import { eliminarReservaPorId } from "./core/listadoReservas.js";
+import { OPINIONES_INICIALES, formatearEstrellas } from "./core/opiniones.js";
 
 const CLAVE_RESERVAS = "gaviotas_reservas";
 const CLAVE_OPINIONES = "gaviotas_opiniones";
@@ -34,10 +32,6 @@ function obtenerOpiniones() {
   }
   localStorage.setItem(CLAVE_OPINIONES, JSON.stringify(OPINIONES_INICIALES));
   return OPINIONES_INICIALES;
-}
-
-function buscarHabitacion(id) {
-  return CATALOGO_HABITACIONES.find((habitacion) => habitacion.id === id);
 }
 
 function mostrarMensaje(elemento, texto, tipo) {
@@ -287,7 +281,7 @@ function inicializarListadoReservas() {
   document.getElementById("modal-cancelar").addEventListener("click", cerrarModalCancelacion);
 
   document.getElementById("modal-confirmar").addEventListener("click", () => {
-    const reservas = obtenerReservas().filter((reserva) => reserva.id !== idReservaAEliminar);
+    const reservas = eliminarReservaPorId(obtenerReservas(), idReservaAEliminar);
     guardarReservas(reservas);
     cerrarModalCancelacion();
     renderizarListadoReservas();
@@ -305,7 +299,7 @@ function renderizarOpiniones() {
     .map(
       (opinion) => `
         <li class="opinion">
-          <p class="opinion__estrellas">${"★".repeat(opinion.estrellas)}${"☆".repeat(5 - opinion.estrellas)} (${opinion.estrellas}/5)</p>
+          <p class="opinion__estrellas">${formatearEstrellas(opinion.estrellas)}</p>
           <p class="opinion__nombre">${opinion.nombre}</p>
           <p class="opinion__comentario">"${opinion.comentario}"</p>
         </li>
