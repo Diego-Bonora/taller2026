@@ -220,18 +220,41 @@ function renderizarListadoReservas() {
     return;
   }
 
-  contenedor.innerHTML = reservas
+  const cabecera = `
+    <div class="reservas__cabecera" aria-hidden="true">
+      <span>Cliente / Contacto</span>
+      <span>Habitación / Huéspedes</span>
+      <span>Fechas</span>
+      <span>Servicios / Comentarios</span>
+      <span>Acción</span>
+    </div>
+  `;
+
+  const filas = reservas
     .map((reserva) => {
       const habitacion = buscarHabitacion(reserva.tipoHabitacion);
+      const serviciosComentarios = [reserva.serviciosAdicionales, reserva.comentariosAdicionales]
+        .filter(Boolean)
+        .join(" — ");
+
       return `
         <article class="reserva-tarjeta">
-          <p><strong>Cliente:</strong> ${reserva.nombre} ${reserva.apellido}</p>
-          <p><strong>Teléfono:</strong> ${reserva.telefono}</p>
-          <p><strong>E-mail:</strong> ${reserva.email}</p>
-          <p><strong>Habitación:</strong> ${habitacion ? habitacion.tipo : reserva.tipoHabitacion}</p>
-          <p><strong>Huéspedes:</strong> ${reserva.cantidadHuespedes}</p>
-          <p><strong>Fechas:</strong> ${reserva.fechaEntrada} — ${reserva.fechaSalida}</p>
-          <div class="reserva-tarjeta__acciones">
+          <div class="reserva-tarjeta__celda" data-etiqueta="Cliente / Contacto">
+            <strong>${reserva.nombre} ${reserva.apellido}</strong>
+            <span>${reserva.telefono}</span>
+            <span>${reserva.email}</span>
+          </div>
+          <div class="reserva-tarjeta__celda" data-etiqueta="Habitación / Huéspedes">
+            <span>${habitacion ? habitacion.tipo : reserva.tipoHabitacion}</span>
+            <span>${reserva.cantidadHuespedes} huésped(es)</span>
+          </div>
+          <div class="reserva-tarjeta__celda" data-etiqueta="Fechas">
+            <span>${reserva.fechaEntrada} — ${reserva.fechaSalida}</span>
+          </div>
+          <div class="reserva-tarjeta__celda" data-etiqueta="Servicios / Comentarios">
+            <span>${serviciosComentarios || "—"}</span>
+          </div>
+          <div class="reserva-tarjeta__celda reserva-tarjeta__acciones" data-etiqueta="Acción">
             <button type="button" class="boton boton--secundario" data-accion="eliminar" data-id="${reserva.id}">
               Eliminar Reserva
             </button>
@@ -240,6 +263,8 @@ function renderizarListadoReservas() {
       `;
     })
     .join("");
+
+  contenedor.innerHTML = cabecera + filas;
 }
 
 function abrirModalCancelacion(id) {

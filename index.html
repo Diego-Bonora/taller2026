@@ -1,221 +1,351 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Las Gaviotas</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <header class="encabezado">
-    <div class="encabezado__marca">
-      <img class="encabezado__logo" src="img/logo.png" alt="Logo Hotel Las Gaviotas" />
-      <span class="encabezado__nombre">Hotel Las Gaviotas</span>
-    </div>
-
-    <button
-      class="encabezado__boton-menu"
-      id="boton-menu"
-      type="button"
-      aria-expanded="false"
-      aria-controls="menu-principal"
-    >
-      <span class="encabezado__boton-menu-texto">Menú</span>
-    </button>
-
-    <nav class="nav" id="menu-principal" aria-label="Navegación principal">
-      <ul class="nav__lista">
-        <li><a href="#inicio" class="nav__enlace" data-seccion="inicio">Inicio</a></li>
-        <li><a href="#reservar" class="nav__enlace" data-seccion="reservar">Reservar</a></li>
-        <li><a href="#galeria" class="nav__enlace" data-seccion="galeria">Galería</a></li>
-        <li><a href="#opiniones" class="nav__enlace" data-seccion="opiniones">Opiniones</a></li>
-        <li>
-          <a href="#login" class="nav__enlace" data-seccion="login" id="nav-acceso-admin"
-            >Login</a
-          >
-        </li>
-        <li class="nav__solo-admin oculto">
-          <a href="#admin-reservas" class="nav__enlace" data-seccion="admin-reservas"
-            >Reservas</a
-          >
-        </li>
-        <li class="nav__solo-admin oculto">
-          <button class="nav__enlace nav__boton-cerrar-sesion" id="boton-cerrar-sesion" type="button">
-            Cerrar sesión
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section id="inicio" class="seccion seccion--activa">
-      <div class="inicio__banner">
-        <img class="inicio__imagen" src="img/hero.jpg" alt="Vista panorámica del Hotel Las Gaviotas" />
-        <h1 class="inicio__titulo">Hotel Las Gaviotas</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Las Gaviotas</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="encabezado">
+      <div class="encabezado__marca">
+        <img
+          class="encabezado__logo"
+          src="img/logo.png"
+          alt="Logo Hotel Las Gaviotas"
+        />
+        <span class="encabezado__nombre">Hotel Las Gaviotas</span>
       </div>
 
-      <div class="inicio__presentacion">
-        <p>
-          Frente al mar, el Hotel Las Gaviotas ofrece habitaciones confortables,
-          atención personalizada y un descanso a la altura de tus vacaciones.
-          Descubrí nuestras habitaciones y reservá tu estadía en pocos pasos.
-        </p>
-        <a href="#reservar" class="boton boton--primario" data-seccion="reservar">Reservar</a>
-      </div>
+      <button
+        class="encabezado__boton-menu"
+        id="boton-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-principal"
+      >
+        <span class="encabezado__boton-menu-texto">Menú</span>
+      </button>
 
-      <div id="galeria" class="inicio__bloque">
-        <h2>Galería de Fotos del Hotel</h2>
-        <div class="galeria__grilla">
-          <img src="img/galeria-1.jpg" alt="Fachada del hotel" loading="lazy" />
-          <img src="img/galeria-2.jpg" alt="Habitación con vista al mar" loading="lazy" />
-          <img src="img/galeria-3.jpg" alt="Piscina del hotel" loading="lazy" />
-          <img src="img/galeria-4.jpg" alt="Desayunador" loading="lazy" />
-          <img src="img/galeria-5.jpg" alt="Recepción del hotel" loading="lazy" />
-          <img src="img/galeria-6.jpg" alt="Atardecer desde el hotel" loading="lazy" />
+      <nav class="nav" id="menu-principal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li>
+            <a href="#inicio" class="nav__enlace" data-seccion="inicio"
+              >Inicio</a
+            >
+          </li>
+          <li>
+            <a href="#reservar" class="nav__enlace" data-seccion="reservar"
+              >Reservar</a
+            >
+          </li>
+          <li>
+            <a href="#galeria" class="nav__enlace" data-seccion="galeria"
+              >Galería</a
+            >
+          </li>
+          <li>
+            <a href="#opiniones" class="nav__enlace" data-seccion="opiniones"
+              >Opiniones</a
+            >
+          </li>
+          <li>
+            <a
+              href="#login"
+              class="nav__enlace"
+              data-seccion="login"
+              id="nav-acceso-admin"
+              >Login</a
+            >
+          </li>
+          <li class="nav__solo-admin oculto">
+            <a
+              href="#admin-reservas"
+              class="nav__enlace"
+              data-seccion="admin-reservas"
+              >Reservas</a
+            >
+          </li>
+          <li class="nav__solo-admin oculto">
+            <button
+              class="nav__enlace nav__boton-cerrar-sesion"
+              id="boton-cerrar-sesion"
+              type="button"
+            >
+              Cerrar sesión
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="inicio" class="seccion seccion--activa">
+        <div class="inicio__banner">
+          <img
+            class="inicio__imagen"
+            src="img/hero.jpg"
+            alt="Vista panorámica del Hotel Las Gaviotas"
+          />
+          <h1 class="inicio__titulo">Hotel Las Gaviotas</h1>
         </div>
-      </div>
 
-      <div id="opiniones" class="inicio__bloque">
-        <h2>Lo que dicen nuestros huéspedes</h2>
-        <ul id="lista-opiniones" class="opiniones__lista"></ul>
-      </div>
-    </section>
+        <div class="inicio__presentacion">
+          <p>
+            Frente al mar, el Hotel Las Gaviotas ofrece habitaciones
+            confortables, atención personalizada y un descanso a la altura de
+            tus vacaciones. Descubrí nuestras habitaciones y reservá tu estadía
+            en pocos pasos.
+          </p>
+          <a
+            href="#reservar"
+            class="boton boton--primario"
+            data-seccion="reservar"
+            >Reservar</a
+          >
+        </div>
 
-    <section id="reservar" class="seccion">
-      <h2>Formulario de Reserva</h2>
+        <div id="galeria" class="inicio__bloque">
+          <h2>Galería de Fotos del Hotel</h2>
+          <div class="galeria__grilla">
+            <img
+              src="img/galeria-1.jpg"
+              alt="Fachada del hotel"
+              loading="lazy"
+            />
+            <img
+              src="img/galeria-2.jpg"
+              alt="Habitación con vista al mar"
+              loading="lazy"
+            />
+            <img
+              src="img/galeria-3.jpg"
+              alt="Piscina del hotel"
+              loading="lazy"
+            />
+            <img src="img/galeria-4.jpg" alt="Desayunador" loading="lazy" />
+            <img
+              src="img/galeria-5.jpg"
+              alt="Recepción del hotel"
+              loading="lazy"
+            />
+            <img
+              src="img/galeria-6.jpg"
+              alt="Atardecer desde el hotel"
+              loading="lazy"
+            />
+          </div>
+        </div>
 
-      <form id="formulario-reserva" novalidate>
-        <div class="formulario__grilla">
+        <div id="opiniones" class="inicio__bloque">
+          <h2>Lo que dicen nuestros huéspedes</h2>
+          <ul id="lista-opiniones" class="opiniones__lista"></ul>
+        </div>
+      </section>
+
+      <section id="reservar" class="seccion">
+        <h2>Formulario de Reserva</h2>
+
+        <form id="formulario-reserva" novalidate>
+          <div class="formulario__grilla">
+            <div class="campo">
+              <label for="reserva-nombre">Nombre *</label>
+              <input type="text" id="reserva-nombre" name="nombre" required />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-apellido">Apellido *</label>
+              <input
+                type="text"
+                id="reserva-apellido"
+                name="apellido"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-telefono">Teléfono *</label>
+              <input
+                type="tel"
+                id="reserva-telefono"
+                name="telefono"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-email">E-mail *</label>
+              <input type="email" id="reserva-email" name="email" required />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-tipo-habitacion">Tipo de habitación *</label>
+              <select
+                id="reserva-tipo-habitacion"
+                name="tipoHabitacion"
+                required
+              >
+                <option value="">Seleccioná una opción</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="reserva-cantidad-huespedes"
+                >Cantidad de huéspedes (1 a 3) *</label
+              >
+              <input
+                type="number"
+                id="reserva-cantidad-huespedes"
+                name="cantidadHuespedes"
+                min="1"
+                max="3"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-fecha-entrada">Fecha de entrada *</label>
+              <input
+                type="date"
+                id="reserva-fecha-entrada"
+                name="fechaEntrada"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="reserva-fecha-salida">Fecha de salida *</label>
+              <input
+                type="date"
+                id="reserva-fecha-salida"
+                name="fechaSalida"
+                required
+              />
+            </div>
+
+            <div class="campo campo--ancho-completo">
+              <label for="reserva-servicios">Servicios adicionales</label>
+              <input
+                type="text"
+                id="reserva-servicios"
+                name="serviciosAdicionales"
+              />
+            </div>
+
+            <div class="campo campo--ancho-completo">
+              <label for="reserva-comentarios">Comentarios adicionales</label>
+              <textarea
+                id="reserva-comentarios"
+                name="comentariosAdicionales"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+
+          <div id="mensaje-reserva" class="mensaje oculto" role="status"></div>
+
+          <button type="submit" class="boton boton--primario">
+            Confirmar Reserva
+          </button>
+        </form>
+
+        <div
+          id="resumen-reserva"
+          class="resumen-reserva oculto"
+          role="status"
+        ></div>
+      </section>
+
+      <section id="login" class="seccion">
+        <h2>Acceso Administrador</h2>
+        <form id="formulario-login" novalidate>
           <div class="campo">
-            <label for="reserva-nombre">Nombre *</label>
-            <input type="text" id="reserva-nombre" name="nombre" required />
+            <label for="login-usuario">Nombre de usuario *</label>
+            <input type="text" id="login-usuario" name="usuario" required />
           </div>
 
           <div class="campo">
-            <label for="reserva-apellido">Apellido *</label>
-            <input type="text" id="reserva-apellido" name="apellido" required />
-          </div>
-
-          <div class="campo">
-            <label for="reserva-telefono">Teléfono *</label>
-            <input type="tel" id="reserva-telefono" name="telefono" required />
-          </div>
-
-          <div class="campo">
-            <label for="reserva-email">E-mail *</label>
-            <input type="email" id="reserva-email" name="email" required />
-          </div>
-
-          <div class="campo">
-            <label for="reserva-tipo-habitacion">Tipo de habitación *</label>
-            <select id="reserva-tipo-habitacion" name="tipoHabitacion" required>
-              <option value="">Seleccioná una opción</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label for="reserva-cantidad-huespedes">Cantidad de huéspedes (1 a 3) *</label>
+            <label for="login-contrasena">Contraseña *</label>
             <input
-              type="number"
-              id="reserva-cantidad-huespedes"
-              name="cantidadHuespedes"
-              min="1"
-              max="3"
+              type="password"
+              id="login-contrasena"
+              name="contrasena"
               required
             />
           </div>
 
-          <div class="campo">
-            <label for="reserva-fecha-entrada">Fecha de entrada *</label>
-            <input type="date" id="reserva-fecha-entrada" name="fechaEntrada" required />
-          </div>
+          <div id="mensaje-login" class="mensaje oculto" role="status"></div>
 
-          <div class="campo">
-            <label for="reserva-fecha-salida">Fecha de salida *</label>
-            <input type="date" id="reserva-fecha-salida" name="fechaSalida" required />
-          </div>
+          <button type="submit" class="boton boton--primario">Ingresar</button>
+        </form>
+      </section>
 
-          <div class="campo campo--ancho-completo">
-            <label for="reserva-servicios">Servicios adicionales</label>
-            <input type="text" id="reserva-servicios" name="serviciosAdicionales" />
-          </div>
+      <section id="admin-reservas" class="seccion">
+        <h2>Gestión de Reservas</h2>
+        <div id="mensaje-admin" class="mensaje oculto" role="status"></div>
+        <div id="lista-reservas" class="reservas__lista"></div>
+      </section>
+    </main>
 
-          <div class="campo campo--ancho-completo">
-            <label for="reserva-comentarios">Comentarios adicionales</label>
-            <textarea id="reserva-comentarios" name="comentariosAdicionales" rows="3"></textarea>
-          </div>
+    <div
+      id="modal-cancelacion"
+      class="modal oculto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-titulo"
+    >
+      <div class="modal__contenido">
+        <h3 id="modal-titulo">¿Cancelar reserva?</h3>
+        <p>
+          ¿Está seguro de eliminar esta reserva? Se borrará de localStorage.
+        </p>
+        <div class="modal__acciones">
+          <button
+            type="button"
+            class="boton boton--secundario"
+            id="modal-cancelar"
+          >
+            No, cancelar
+          </button>
+          <button
+            type="button"
+            class="boton boton--primario"
+            id="modal-confirmar"
+          >
+            Sí, eliminar
+          </button>
         </div>
-
-        <div id="mensaje-reserva" class="mensaje oculto" role="status"></div>
-
-        <button type="submit" class="boton boton--primario">Confirmar Reserva</button>
-      </form>
-
-      <div id="resumen-reserva" class="resumen-reserva oculto" role="status"></div>
-    </section>
-
-    <section id="login" class="seccion">
-      <h2>Acceso Administrador</h2>
-      <form id="formulario-login" novalidate>
-        <div class="campo">
-          <label for="login-usuario">Nombre de usuario *</label>
-          <input type="text" id="login-usuario" name="usuario" required />
-        </div>
-
-        <div class="campo">
-          <label for="login-contrasena">Contraseña *</label>
-          <input type="password" id="login-contrasena" name="contrasena" required />
-        </div>
-
-        <div id="mensaje-login" class="mensaje oculto" role="status"></div>
-
-        <button type="submit" class="boton boton--primario">Ingresar</button>
-      </form>
-    </section>
-
-    <section id="admin-reservas" class="seccion">
-      <h2>Gestión de Reservas</h2>
-      <div id="mensaje-admin" class="mensaje oculto" role="status"></div>
-      <div id="lista-reservas" class="reservas__lista"></div>
-    </section>
-  </main>
-
-  <div id="modal-cancelacion" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
-    <div class="modal__contenido">
-      <h3 id="modal-titulo">¿Cancelar reserva?</h3>
-      <p>¿Está seguro de eliminar esta reserva? Se borrará de localStorage.</p>
-      <div class="modal__acciones">
-        <button type="button" class="boton boton--secundario" id="modal-cancelar">No, cancelar</button>
-        <button type="button" class="boton boton--primario" id="modal-confirmar">Sí, eliminar</button>
       </div>
     </div>
-  </div>
 
-  <footer class="pie">
-    <div class="pie__marca">
-      <img class="pie__logo" src="img/logo.png" alt="Logo Hotel Las Gaviotas" />
-      <p>Hotel Las Gaviotas</p>
-      <p>El mejor lugar para tu descanso.</p>
-    </div>
+    <footer class="pie">
+      <div class="pie__marca">
+        <img
+          class="pie__logo"
+          src="img/logo.png"
+          alt="Logo Hotel Las Gaviotas"
+        />
+        <p>Hotel Las Gaviotas</p>
+        <p>El mejor lugar para tu descanso.</p>
+      </div>
 
-    <nav class="pie__mapa-sitio" aria-label="Mapa del sitio">
-      <h3>Mapa del sitio</h3>
-      <ul>
-        <li><a href="#inicio" data-seccion="inicio">Inicio</a></li>
-        <li><a href="#reservar" data-seccion="reservar">Reservar</a></li>
-        <li><a href="#galeria" data-seccion="galeria">Galería</a></li>
-        <li><a href="#opiniones" data-seccion="opiniones">Opiniones</a></li>
-      </ul>
-    </nav>
+      <nav class="pie__mapa-sitio" aria-label="Mapa del sitio">
+        <h3>Mapa del sitio</h3>
+        <ul>
+          <li><a href="#inicio" data-seccion="inicio">Inicio</a></li>
+          <li><a href="#reservar" data-seccion="reservar">Reservar</a></li>
+          <li><a href="#galeria" data-seccion="galeria">Galería</a></li>
+          <li><a href="#opiniones" data-seccion="opiniones">Opiniones</a></li>
+        </ul>
+      </nav>
 
-    <div class="pie__contacto">
-      <h3>Contacto</h3>
-      <p>Teléfono: 099123456</p>
-      <p>E-mail: contacto@lasgaviotas.com</p>
-    </div>
-  </footer>
+      <div class="pie__contacto">
+        <h3>Contacto</h3>
+        <p>Teléfono: 099123456</p>
+        <p>E-mail: contacto@lasgaviotas.com</p>
+      </div>
+    </footer>
 
-  <script type="module" src="./src/app.js"></script>
-</body>
+    <script type="module" src="./src/app.js"></script>
+  </body>
 </html>
