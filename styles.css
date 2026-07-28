@@ -194,6 +194,12 @@ main {
 
 /* Formularios */
 
+.formulario__grilla {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
 .campo {
   display: flex;
   flex-direction: column;
@@ -206,18 +212,25 @@ main {
   font-size: 0.9rem;
 }
 
-.campo input {
+.campo input,
+.campo select,
+.campo textarea {
   padding: 0.6rem 0.75rem;
   border: 1px solid #ccc;
   font-size: 1rem;
   font-family: inherit;
 }
 
-#formulario-login {
+#formulario-login,
+#formulario-reserva {
   background: #fff;
   padding: 1.25rem;
   border: 1px solid #ccc;
-  max-width: 400px;
+  max-width: 480px;
+}
+
+#formulario-reserva {
+  max-width: none;
 }
 
 .mensaje {
@@ -240,6 +253,24 @@ main {
 
 .oculto {
   display: none !important;
+}
+
+.resumen-reserva {
+  margin-top: 1.5rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 1.25rem;
+}
+
+.resumen-reserva dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+}
+
+.resumen-reserva dt {
+  font-weight: 600;
 }
 
 /* Reservas admin */
@@ -289,4 +320,3 @@ main {
   gap: 0.75rem;
   margin-top: 1.25rem;
 }
-

@@ -26,6 +26,7 @@
     <nav class="nav" id="menu-principal" aria-label="Navegación principal">
       <ul class="nav__lista">
         <li><a href="#inicio" class="nav__enlace" data-seccion="inicio">Inicio</a></li>
+        <li><a href="#reservar" class="nav__enlace" data-seccion="reservar">Reservar</a></li>
         <li><a href="#opiniones" class="nav__enlace" data-seccion="opiniones">Opiniones</a></li>
         <li>
           <a href="#login" class="nav__enlace" data-seccion="login" id="nav-acceso-admin"
@@ -68,6 +69,79 @@
       </div>
     </section>
 
+    <section id="reservar" class="seccion">
+      <h2>Formulario de Reserva</h2>
+
+      <form id="formulario-reserva" novalidate>
+        <div class="formulario__grilla">
+          <div class="campo">
+            <label for="reserva-nombre">Nombre *</label>
+            <input type="text" id="reserva-nombre" name="nombre" required />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-apellido">Apellido *</label>
+            <input type="text" id="reserva-apellido" name="apellido" required />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-telefono">Teléfono *</label>
+            <input type="tel" id="reserva-telefono" name="telefono" required />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-email">E-mail *</label>
+            <input type="email" id="reserva-email" name="email" required />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-tipo-habitacion">Tipo de habitación *</label>
+            <select id="reserva-tipo-habitacion" name="tipoHabitacion" required>
+              <option value="">Seleccioná una opción</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="reserva-cantidad-huespedes">Cantidad de huéspedes (1 a 3) *</label>
+            <input
+              type="number"
+              id="reserva-cantidad-huespedes"
+              name="cantidadHuespedes"
+              min="1"
+              max="3"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-fecha-entrada">Fecha de entrada *</label>
+            <input type="date" id="reserva-fecha-entrada" name="fechaEntrada" required />
+          </div>
+
+          <div class="campo">
+            <label for="reserva-fecha-salida">Fecha de salida *</label>
+            <input type="date" id="reserva-fecha-salida" name="fechaSalida" required />
+          </div>
+
+          <div class="campo campo--ancho-completo">
+            <label for="reserva-servicios">Servicios adicionales</label>
+            <input type="text" id="reserva-servicios" name="serviciosAdicionales" />
+          </div>
+
+          <div class="campo campo--ancho-completo">
+            <label for="reserva-comentarios">Comentarios adicionales</label>
+            <textarea id="reserva-comentarios" name="comentariosAdicionales" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div id="mensaje-reserva" class="mensaje oculto" role="status"></div>
+
+        <button type="submit" class="boton boton--primario">Confirmar Reserva</button>
+      </form>
+
+      <div id="resumen-reserva" class="resumen-reserva oculto" role="status"></div>
+    </section>
+
     <section id="login" class="seccion">
       <h2>Acceso Administrador</h2>
       <form id="formulario-login" novalidate>
@@ -108,4 +182,3 @@
   <script type="module" src="./src/app.js"></script>
 </body>
 </html>
-

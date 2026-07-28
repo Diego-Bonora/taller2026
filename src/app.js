@@ -1,10 +1,22 @@
-import { OPINIONES_INICIALES, validarLogin } from "./core/reservas.js";
+import {
+  CATALOGO_HABITACIONES,
+  OPINIONES_INICIALES,
+  validarLogin,
+  validarReserva,
+} from "./core/reservas.js";
 
 const CLAVE_RESERVAS = "gaviotas_reservas";
 const CLAVE_OPINIONES = "gaviotas_opiniones";
 
 let esAdmin = false;
 let idReservaAEliminar = null;
+
+function generarId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+  return `reserva-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+}
 
 function obtenerReservas() {
   const guardado = localStorage.getItem(CLAVE_RESERVAS);
@@ -22,6 +34,10 @@ function obtenerOpiniones() {
   }
   localStorage.setItem(CLAVE_OPINIONES, JSON.stringify(OPINIONES_INICIALES));
   return OPINIONES_INICIALES;
+}
+
+function buscarHabitacion(id) {
+  return CATALOGO_HABITACIONES.find((habitacion) => habitacion.id === id);
 }
 
 function mostrarMensaje(elemento, texto, tipo) {
@@ -93,6 +109,16 @@ function actualizarVisibilidadAdmin() {
   });
 }
 
+function poblarSelectHabitaciones() {
+  const select = document.getElementById("reserva-tipo-habitacion");
+  CATALOGO_HABITACIONES.forEach((habitacion) => {
+    const opcion = document.createElement("option");
+    opcion.value = habitacion.id;
+    opcion.textContent = `${habitacion.tipo} — ${habitacion.precio} USD/noche`;
+    select.appendChild(opcion);
+  });
+}
+
 function inicializarLogin() {
   const formulario = document.getElementById("formulario-login");
   const mensaje = document.getElementById("mensaje-login");
@@ -123,6 +149,68 @@ function inicializarLogin() {
   });
 }
 
+function renderizarResumenReserva(reserva, habitacion) {
+  const contenedor = document.getElementById("resumen-reserva");
+
+  contenedor.innerHTML = `
+    <h3>Resumen de tu reserva</h3>
+    <dl>
+      <dt>Huésped</dt><dd>${reserva.nombre} ${reserva.apellido}</dd>
+      <dt>Teléfono</dt><dd>${reserva.telefono}</dd>
+      <dt>E-mail</dt><dd>${reserva.email}</dd>
+      <dt>Tipo de habitación</dt><dd>${habitacion.tipo} (${habitacion.precio} USD/noche)</dd>
+      <dt>Huéspedes</dt><dd>${reserva.cantidadHuespedes}</dd>
+      <dt>Fecha de entrada</dt><dd>${reserva.fechaEntrada}</dd>
+      <dt>Fecha de salida</dt><dd>${reserva.fechaSalida}</dd>
+      ${reserva.serviciosAdicionales ? `<dt>Servicios adicionales</dt><dd>${reserva.serviciosAdicionales}</dd>` : ""}
+      ${reserva.comentariosAdicionales ? `<dt>Comentarios</dt><dd>${reserva.comentariosAdicionales}</dd>` : ""}
+    </dl>
+  `;
+  contenedor.classList.remove("oculto");
+}
+
+function inicializarFormularioReserva() {
+  const formulario = document.getElementById("formulario-reserva");
+  const mensaje = document.getElementById("mensaje-reserva");
+
+  formulario.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+
+    const datos = {
+      nombre: formulario.nombre.value.trim(),
+      apellido: formulario.apellido.value.trim(),
+      telefono: formulario.telefono.value.trim(),
+      email: formulario.email.value.trim(),
+      tipoHabitacion: formulario.tipoHabitacion.value,
+      cantidadHuespedes: formulario.cantidadHuespedes.value,
+      fechaEntrada: formulario.fechaEntrada.value,
+      fechaSalida: formulario.fechaSalida.value,
+      serviciosAdicionales: formulario.serviciosAdicionales.value.trim(),
+      comentariosAdicionales: formulario.comentariosAdicionales.value.trim(),
+    };
+
+    const reservasExistentes = obtenerReservas();
+    const resultado = validarReserva(datos, reservasExistentes);
+
+    if (!resultado.valido) {
+      mostrarMensaje(mensaje, resultado.errores.join(" "), "error");
+      document.getElementById("resumen-reserva").classList.add("oculto");
+      return;
+    }
+
+    const nuevaReserva = { id: generarId(), ...datos };
+    guardarReservas([...reservasExistentes, nuevaReserva]);
+
+    mostrarMensaje(mensaje, "¡Reserva confirmada con éxito!", "exito");
+    renderizarResumenReserva(nuevaReserva, buscarHabitacion(datos.tipoHabitacion));
+    formulario.reset();
+
+    if (esAdmin) {
+      renderizarListadoReservas();
+    }
+  });
+}
+
 function renderizarListadoReservas() {
   const contenedor = document.getElementById("lista-reservas");
   const reservas = obtenerReservas();
@@ -133,13 +221,14 @@ function renderizarListadoReservas() {
   }
 
   contenedor.innerHTML = reservas
-    .map(
-      (reserva) => `
+    .map((reserva) => {
+      const habitacion = buscarHabitacion(reserva.tipoHabitacion);
+      return `
         <article class="reserva-tarjeta">
           <p><strong>Cliente:</strong> ${reserva.nombre} ${reserva.apellido}</p>
           <p><strong>Teléfono:</strong> ${reserva.telefono}</p>
           <p><strong>E-mail:</strong> ${reserva.email}</p>
-          <p><strong>Habitación:</strong> ${reserva.tipoHabitacion}</p>
+          <p><strong>Habitación:</strong> ${habitacion ? habitacion.tipo : reserva.tipoHabitacion}</p>
           <p><strong>Huéspedes:</strong> ${reserva.cantidadHuespedes}</p>
           <p><strong>Fechas:</strong> ${reserva.fechaEntrada} — ${reserva.fechaSalida}</p>
           <div class="reserva-tarjeta__acciones">
@@ -148,8 +237,8 @@ function renderizarListadoReservas() {
             </button>
           </div>
         </article>
-      `
-    )
+      `;
+    })
     .join("");
 }
 
@@ -203,11 +292,12 @@ function renderizarOpiniones() {
 function inicializar() {
   inicializarNavegacion();
   actualizarVisibilidadAdmin();
+  poblarSelectHabitaciones();
   inicializarLogin();
+  inicializarFormularioReserva();
   inicializarListadoReservas();
   renderizarOpiniones();
   mostrarSeccion("inicio");
 }
 
 inicializar();
-
