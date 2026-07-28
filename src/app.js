@@ -1,4 +1,6 @@
-import { OPINIONES_INICIALES } from "./core/reservas.js";
+app.js
+
+import { OPINIONES_INICIALES, validarLogin } from "./core/reservas.js";
 
 const CLAVE_OPINIONES = "gaviotas_opiniones";
 
@@ -9,6 +11,16 @@ function obtenerOpiniones() {
   }
   localStorage.setItem(CLAVE_OPINIONES, JSON.stringify(OPINIONES_INICIALES));
   return OPINIONES_INICIALES;
+}
+
+function mostrarMensaje(elemento, texto, tipo) {
+  elemento.textContent = texto;
+  elemento.className = `mensaje mensaje--${tipo}`;
+}
+
+function ocultarMensaje(elemento) {
+  elemento.textContent = "";
+  elemento.className = "mensaje oculto";
 }
 
 function renderizarOpiniones() {
@@ -28,8 +40,31 @@ function renderizarOpiniones() {
     .join("");
 }
 
+function inicializarLogin() {
+  const formulario = document.getElementById("formulario-login");
+  const mensaje = document.getElementById("mensaje-login");
+
+  formulario.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    const usuario = formulario.usuario.value.trim();
+    const contrasena = formulario.contrasena.value;
+
+    const resultado = validarLogin(usuario, contrasena);
+
+    if (!resultado.valido) {
+      mostrarMensaje(mensaje, resultado.mensaje, "error");
+      return;
+    }
+
+    formulario.reset();
+    mostrarMensaje(mensaje, resultado.mensaje, "exito");
+  });
+}
+
 function inicializar() {
   renderizarOpiniones();
+  inicializarLogin();
 }
 
 inicializar();
+

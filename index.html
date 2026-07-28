@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hotel Las Gaviotas</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
   <header class="encabezado">
     <div class="encabezado__marca">
@@ -35,8 +37,28 @@
         <ul id="lista-opiniones" class="opiniones__lista"></ul>
       </div>
     </section>
+
+    <section id="login" class="seccion">
+      <h2>Acceso Administrador</h2>
+      <form id="formulario-login" novalidate>
+        <div class="campo">
+          <label for="login-usuario">Nombre de usuario *</label>
+          <input type="text" id="login-usuario" name="usuario" required />
+        </div>
+
+        <div class="campo">
+          <label for="login-contrasena">Contraseña *</label>
+          <input type="password" id="login-contrasena" name="contrasena" required />
+        </div>
+
+        <div id="mensaje-login" class="mensaje oculto" role="status"></div>
+
+        <button type="submit" class="boton boton--primario">Ingresar</button>
+      </form>
+    </section>
   </main>
 
   <script type="module" src="./src/app.js"></script>
 </body>
+
 </html>
