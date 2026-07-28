@@ -1,5 +1,3 @@
-index.html
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,6 +31,16 @@ index.html
           <a href="#login" class="nav__enlace" data-seccion="login" id="nav-acceso-admin"
             >Login</a
           >
+        </li>
+        <li class="nav__solo-admin oculto">
+          <a href="#admin-reservas" class="nav__enlace" data-seccion="admin-reservas"
+            >Reservas</a
+          >
+        </li>
+        <li class="nav__solo-admin oculto">
+          <button class="nav__enlace nav__boton-cerrar-sesion" id="boton-cerrar-sesion" type="button">
+            Cerrar sesión
+          </button>
         </li>
       </ul>
     </nav>
@@ -78,7 +86,24 @@ index.html
         <button type="submit" class="boton boton--primario">Ingresar</button>
       </form>
     </section>
+
+    <section id="admin-reservas" class="seccion">
+      <h2>Gestión de Reservas</h2>
+      <div id="mensaje-admin" class="mensaje oculto" role="status"></div>
+      <div id="lista-reservas" class="reservas__lista"></div>
+    </section>
   </main>
+
+  <div id="modal-cancelacion" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal__contenido">
+      <h3 id="modal-titulo">¿Cancelar reserva?</h3>
+      <p>¿Está seguro de eliminar esta reserva? Se borrará de localStorage.</p>
+      <div class="modal__acciones">
+        <button type="button" class="boton boton--secundario" id="modal-cancelar">No, cancelar</button>
+        <button type="button" class="boton boton--primario" id="modal-confirmar">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="./src/app.js"></script>
 </body>

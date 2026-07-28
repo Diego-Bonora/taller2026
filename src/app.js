@@ -1,8 +1,19 @@
-app.js
-
 import { OPINIONES_INICIALES, validarLogin } from "./core/reservas.js";
 
+const CLAVE_RESERVAS = "gaviotas_reservas";
 const CLAVE_OPINIONES = "gaviotas_opiniones";
+
+let esAdmin = false;
+let idReservaAEliminar = null;
+
+function obtenerReservas() {
+  const guardado = localStorage.getItem(CLAVE_RESERVAS);
+  return guardado ? JSON.parse(guardado) : [];
+}
+
+function guardarReservas(reservas) {
+  localStorage.setItem(CLAVE_RESERVAS, JSON.stringify(reservas));
+}
 
 function obtenerOpiniones() {
   const guardado = localStorage.getItem(CLAVE_OPINIONES);
@@ -34,6 +45,10 @@ function mostrarSeccion(idSeccion, idDestacado = idSeccion) {
 
   document.getElementById("menu-principal").classList.remove("nav--abierto");
   document.getElementById("boton-menu").setAttribute("aria-expanded", "false");
+
+  if (idSeccion === "admin-reservas") {
+    renderizarListadoReservas();
+  }
 
   if (idDestacado !== idSeccion) {
     const destino = document.getElementById(idDestacado);
@@ -71,21 +86,11 @@ function inicializarNavegacion() {
   });
 }
 
-function renderizarOpiniones() {
-  const contenedor = document.getElementById("lista-opiniones");
-  const opiniones = obtenerOpiniones();
-
-  contenedor.innerHTML = opiniones
-    .map(
-      (opinion) => `
-        <li class="opinion">
-          <p class="opinion__estrellas">${"★".repeat(opinion.estrellas)}${"☆".repeat(5 - opinion.estrellas)} (${opinion.estrellas}/5)</p>
-          <p class="opinion__nombre">${opinion.nombre}</p>
-          <p class="opinion__comentario">"${opinion.comentario}"</p>
-        </li>
-      `
-    )
-    .join("");
+function actualizarVisibilidadAdmin() {
+  document.getElementById("nav-acceso-admin").parentElement.classList.toggle("oculto", esAdmin);
+  document.querySelectorAll(".nav__solo-admin").forEach((elemento) => {
+    elemento.classList.toggle("oculto", !esAdmin);
+  });
 }
 
 function inicializarLogin() {
@@ -104,14 +109,102 @@ function inicializarLogin() {
       return;
     }
 
+    esAdmin = true;
+    actualizarVisibilidadAdmin();
     formulario.reset();
-    mostrarMensaje(mensaje, resultado.mensaje, "exito");
+    ocultarMensaje(mensaje);
+    mostrarSeccion("admin-reservas");
   });
+
+  document.getElementById("boton-cerrar-sesion").addEventListener("click", () => {
+    esAdmin = false;
+    actualizarVisibilidadAdmin();
+    mostrarSeccion("inicio");
+  });
+}
+
+function renderizarListadoReservas() {
+  const contenedor = document.getElementById("lista-reservas");
+  const reservas = obtenerReservas();
+
+  if (reservas.length === 0) {
+    contenedor.innerHTML = "<p>No hay reservas registradas.</p>";
+    return;
+  }
+
+  contenedor.innerHTML = reservas
+    .map(
+      (reserva) => `
+        <article class="reserva-tarjeta">
+          <p><strong>Cliente:</strong> ${reserva.nombre} ${reserva.apellido}</p>
+          <p><strong>Teléfono:</strong> ${reserva.telefono}</p>
+          <p><strong>E-mail:</strong> ${reserva.email}</p>
+          <p><strong>Habitación:</strong> ${reserva.tipoHabitacion}</p>
+          <p><strong>Huéspedes:</strong> ${reserva.cantidadHuespedes}</p>
+          <p><strong>Fechas:</strong> ${reserva.fechaEntrada} — ${reserva.fechaSalida}</p>
+          <div class="reserva-tarjeta__acciones">
+            <button type="button" class="boton boton--secundario" data-accion="eliminar" data-id="${reserva.id}">
+              Eliminar Reserva
+            </button>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function abrirModalCancelacion(id) {
+  idReservaAEliminar = id;
+  document.getElementById("modal-cancelacion").classList.remove("oculto");
+}
+
+function cerrarModalCancelacion() {
+  idReservaAEliminar = null;
+  document.getElementById("modal-cancelacion").classList.add("oculto");
+}
+
+function inicializarListadoReservas() {
+  document.getElementById("lista-reservas").addEventListener("click", (evento) => {
+    const boton = evento.target.closest('[data-accion="eliminar"]');
+    if (!boton) return;
+    abrirModalCancelacion(boton.dataset.id);
+  });
+
+  document.getElementById("modal-cancelar").addEventListener("click", cerrarModalCancelacion);
+
+  document.getElementById("modal-confirmar").addEventListener("click", () => {
+    const reservas = obtenerReservas().filter((reserva) => reserva.id !== idReservaAEliminar);
+    guardarReservas(reservas);
+    cerrarModalCancelacion();
+    renderizarListadoReservas();
+
+    const mensajeAdmin = document.getElementById("mensaje-admin");
+    mostrarMensaje(mensajeAdmin, "Reserva cancelada con éxito.", "exito");
+  });
+}
+
+function renderizarOpiniones() {
+  const contenedor = document.getElementById("lista-opiniones");
+  const opiniones = obtenerOpiniones();
+
+  contenedor.innerHTML = opiniones
+    .map(
+      (opinion) => `
+        <li class="opinion">
+          <p class="opinion__estrellas">${"★".repeat(opinion.estrellas)}${"☆".repeat(5 - opinion.estrellas)} (${opinion.estrellas}/5)</p>
+          <p class="opinion__nombre">${opinion.nombre}</p>
+          <p class="opinion__comentario">"${opinion.comentario}"</p>
+        </li>
+      `
+    )
+    .join("");
 }
 
 function inicializar() {
   inicializarNavegacion();
+  actualizarVisibilidadAdmin();
   inicializarLogin();
+  inicializarListadoReservas();
   renderizarOpiniones();
   mostrarSeccion("inicio");
 }

@@ -33,3 +33,4 @@ export function validarLogin(usuario, contrasena) {
   }
   return { valido: false, mensaje: "Usuario o contraseña incorrectos." };
 }
+
