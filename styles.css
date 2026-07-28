@@ -190,6 +190,11 @@ main {
   margin: 0;
 }
 
+.inicio__subtitulo {
+  text-align: center;
+  margin-bottom: 0;
+}
+
 .inicio__presentacion {
   display: flex;
   flex-direction: column;
