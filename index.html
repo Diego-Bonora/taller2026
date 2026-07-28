@@ -1,19 +1,41 @@
+index.html
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hotel Las Gaviotas</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
-
 <body>
   <header class="encabezado">
     <div class="encabezado__marca">
       <img class="encabezado__logo" src="img/logo.png" alt="Logo Hotel Las Gaviotas" />
       <span class="encabezado__nombre">Hotel Las Gaviotas</span>
     </div>
+
+    <button
+      class="encabezado__boton-menu"
+      id="boton-menu"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+    >
+      <span class="encabezado__boton-menu-texto">Menú</span>
+    </button>
+
+    <nav class="nav" id="menu-principal" aria-label="Navegación principal">
+      <ul class="nav__lista">
+        <li><a href="#inicio" class="nav__enlace" data-seccion="inicio">Inicio</a></li>
+        <li><a href="#opiniones" class="nav__enlace" data-seccion="opiniones">Opiniones</a></li>
+        <li>
+          <a href="#login" class="nav__enlace" data-seccion="login" id="nav-acceso-admin"
+            >Login</a
+          >
+        </li>
+      </ul>
+    </nav>
   </header>
 
   <main>
@@ -29,7 +51,7 @@
           atención personalizada y un descanso a la altura de tus vacaciones.
           Descubrí nuestras habitaciones y reservá tu estadía en pocos pasos.
         </p>
-        <a href="#reservar" class="boton boton--primario">Reservar</a>
+        <a href="#reservar" class="boton boton--primario" data-seccion="reservar">Reservar</a>
       </div>
 
       <div id="opiniones" class="inicio__bloque">
@@ -60,5 +82,5 @@
 
   <script type="module" src="./src/app.js"></script>
 </body>
-
 </html>
+

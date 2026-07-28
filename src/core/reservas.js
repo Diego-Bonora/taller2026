@@ -1,3 +1,6 @@
+const USUARIO_ADMIN = "admin";
+const CONTRASENA_ADMIN = "hotel";
+
 export const OPINIONES_INICIALES = [
   {
     nombre: "Carlos M.",
@@ -20,3 +23,13 @@ export const OPINIONES_INICIALES = [
     comentario: "Buena estadía, habitación confortable y muy cerca de los puntos de interés.",
   },
 ];
+
+export function validarLogin(usuario, contrasena) {
+  if (!usuario || !contrasena) {
+    return { valido: false, mensaje: "Ingresá usuario y contraseña." };
+  }
+  if (usuario === USUARIO_ADMIN && contrasena === CONTRASENA_ADMIN) {
+    return { valido: true, mensaje: "Inicio de sesión exitoso." };
+  }
+  return { valido: false, mensaje: "Usuario o contraseña incorrectos." };
+}

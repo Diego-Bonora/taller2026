@@ -23,6 +23,54 @@ function ocultarMensaje(elemento) {
   elemento.className = "mensaje oculto";
 }
 
+function mostrarSeccion(idSeccion, idDestacado = idSeccion) {
+  document.querySelectorAll(".seccion").forEach((seccion) => {
+    seccion.classList.toggle("seccion--activa", seccion.id === idSeccion);
+  });
+
+  document.querySelectorAll(".nav__enlace[data-seccion]").forEach((enlace) => {
+    enlace.classList.toggle("nav__enlace--activo", enlace.dataset.seccion === idDestacado);
+  });
+
+  document.getElementById("menu-principal").classList.remove("nav--abierto");
+  document.getElementById("boton-menu").setAttribute("aria-expanded", "false");
+
+  if (idDestacado !== idSeccion) {
+    const destino = document.getElementById(idDestacado);
+    if (destino) {
+      const maximoScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const posicion = Math.min(destino.getBoundingClientRect().top + window.scrollY, maximoScroll);
+      window.scrollTo({ top: posicion, behavior: "smooth" });
+    }
+  }
+}
+
+function irADestino(id) {
+  const elemento = document.getElementById(id);
+  const esSeccionPrincipal = elemento?.classList.contains("seccion");
+  mostrarSeccion(esSeccionPrincipal ? id : "inicio", id);
+
+  if (id === "inicio") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function inicializarNavegacion() {
+  document.querySelectorAll("[data-seccion]").forEach((elemento) => {
+    elemento.addEventListener("click", (evento) => {
+      evento.preventDefault();
+      irADestino(elemento.dataset.seccion);
+    });
+  });
+
+  const botonMenu = document.getElementById("boton-menu");
+  const menuPrincipal = document.getElementById("menu-principal");
+  botonMenu.addEventListener("click", () => {
+    const abierto = menuPrincipal.classList.toggle("nav--abierto");
+    botonMenu.setAttribute("aria-expanded", String(abierto));
+  });
+}
+
 function renderizarOpiniones() {
   const contenedor = document.getElementById("lista-opiniones");
   const opiniones = obtenerOpiniones();
@@ -62,8 +110,10 @@ function inicializarLogin() {
 }
 
 function inicializar() {
-  renderizarOpiniones();
+  inicializarNavegacion();
   inicializarLogin();
+  renderizarOpiniones();
+  mostrarSeccion("inicio");
 }
 
 inicializar();

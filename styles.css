@@ -33,12 +33,16 @@ h1, h2, h3 {
   color: #fff;
 }
 
+/* Encabezado y navegación */
+
 .encabezado {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0.75rem 1rem;
   background: #fff;
   border-bottom: 1px solid #ccc;
+  position: relative;
 }
 
 .encabezado__marca {
@@ -53,6 +57,56 @@ h1, h2, h3 {
   height: 40px;
   border-radius: 50%;
 }
+
+.encabezado__boton-menu {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  display: none;
+}
+
+.nav.nav--abierto {
+  display: block;
+}
+
+.nav__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav__enlace {
+  display: block;
+  padding: 0.5rem 0.25rem;
+  color: #222;
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.nav__enlace.nav__enlace--activo {
+  color: #0b6e8f;
+  font-weight: bold;
+}
+
+/* Contenido principal */
 
 main {
   padding: 1.5rem 1rem 3rem;
@@ -178,3 +232,4 @@ main {
 .oculto {
   display: none !important;
 }
+
