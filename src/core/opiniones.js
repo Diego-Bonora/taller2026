@@ -1,4 +1,4 @@
-export const OPINIONES_INICIALES = [
+const OPINIONES_INICIALES = [
   {
     nombre: "Carlos M.",
     estrellas: 5,
@@ -21,6 +21,10 @@ export const OPINIONES_INICIALES = [
   },
 ];
 
-export function formatearEstrellas(estrellas) {
+function formatearEstrellas(estrellas) {
   return `${"★".repeat(estrellas)}${"☆".repeat(5 - estrellas)} (${estrellas}/5)`;
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { OPINIONES_INICIALES, formatearEstrellas };
 }

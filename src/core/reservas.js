@@ -6,7 +6,7 @@ const UNIDADES_POR_TIPO = 5;
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REGEX_TELEFONO = /^[0-9+()\s-]{7,15}$/;
 
-export const CATALOGO_HABITACIONES = [
+const CATALOGO_HABITACIONES = [
   { id: "standard", tipo: "Standard", precio: 100, unidadesTotales: UNIDADES_POR_TIPO },
   { id: "premium", tipo: "Premium", precio: 110, unidadesTotales: UNIDADES_POR_TIPO },
   { id: "luxury", tipo: "Luxury", precio: 120, unidadesTotales: UNIDADES_POR_TIPO },
@@ -29,11 +29,11 @@ function rangosSuperpuestos(entradaA, salidaA, entradaB, salidaB) {
   return entradaA < salidaB && entradaB < salidaA;
 }
 
-export function buscarHabitacion(tipoHabitacionId) {
+function buscarHabitacion(tipoHabitacionId) {
   return CATALOGO_HABITACIONES.find((habitacion) => habitacion.id === tipoHabitacionId);
 }
 
-export function validarReserva(datos, reservasExistentes = []) {
+function validarReserva(datos, reservasExistentes = []) {
   const errores = [];
   const {
     nombre,
@@ -112,4 +112,8 @@ export function validarReserva(datos, reservasExistentes = []) {
   }
 
   return { valido: errores.length === 0, errores };
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { CATALOGO_HABITACIONES, buscarHabitacion, validarReserva };
 }

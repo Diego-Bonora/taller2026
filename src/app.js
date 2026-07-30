@@ -1,8 +1,3 @@
-import { validarLogin } from "./core/login.js";
-import { CATALOGO_HABITACIONES, validarReserva, buscarHabitacion } from "./core/reservas.js";
-import { eliminarReservaPorId } from "./core/listadoReservas.js";
-import { OPINIONES_INICIALES, formatearEstrellas } from "./core/opiniones.js";
-
 const CLAVE_RESERVAS = "gaviotas_reservas";
 const CLAVE_OPINIONES = "gaviotas_opiniones";
 

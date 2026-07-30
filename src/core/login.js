@@ -1,7 +1,7 @@
 const USUARIO_ADMIN = "admin";
 const CONTRASENA_ADMIN = "hotel";
 
-export function validarLogin(usuario, contrasena) {
+function validarLogin(usuario, contrasena) {
   if (!usuario || !contrasena) {
     return { valido: false, mensaje: "Ingresá usuario y contraseña." };
   }
@@ -9,4 +9,8 @@ export function validarLogin(usuario, contrasena) {
     return { valido: true, mensaje: "Inicio de sesión exitoso." };
   }
   return { valido: false, mensaje: "Usuario o contraseña incorrectos." };
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { validarLogin };
 }
