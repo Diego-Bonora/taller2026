@@ -2,7 +2,6 @@ const CLAVE_RESERVAS = "gaviotas_reservas";
 const CLAVE_OPINIONES = "gaviotas_opiniones";
 
 let esAdmin = false;
-let idReservaAEliminar = null;
 
 function generarId() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -256,36 +255,6 @@ function renderizarListadoReservas() {
   contenedor.innerHTML = cabecera + filas;
 }
 
-function abrirModalCancelacion(id) {
-  idReservaAEliminar = id;
-  document.getElementById("modal-cancelacion").classList.remove("oculto");
-}
-
-function cerrarModalCancelacion() {
-  idReservaAEliminar = null;
-  document.getElementById("modal-cancelacion").classList.add("oculto");
-}
-
-function inicializarListadoReservas() {
-  document.getElementById("lista-reservas").addEventListener("click", (evento) => {
-    const boton = evento.target.closest('[data-accion="eliminar"]');
-    if (!boton) return;
-    abrirModalCancelacion(boton.dataset.id);
-  });
-
-  document.getElementById("modal-cancelar").addEventListener("click", cerrarModalCancelacion);
-
-  document.getElementById("modal-confirmar").addEventListener("click", () => {
-    const reservas = eliminarReservaPorId(obtenerReservas(), idReservaAEliminar);
-    guardarReservas(reservas);
-    cerrarModalCancelacion();
-    renderizarListadoReservas();
-
-    const mensajeAdmin = document.getElementById("mensaje-admin");
-    mostrarMensaje(mensajeAdmin, "Reserva cancelada con éxito.", "exito");
-  });
-}
-
 function renderizarOpiniones() {
   const contenedor = document.getElementById("lista-opiniones");
   const opiniones = obtenerOpiniones();
@@ -309,7 +278,6 @@ function inicializar() {
   poblarSelectHabitaciones();
   inicializarLogin();
   inicializarFormularioReserva();
-  inicializarListadoReservas();
   renderizarOpiniones();
   mostrarSeccion("inicio");
 }
