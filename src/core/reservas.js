@@ -4,7 +4,7 @@ const MAX_DIAS_RESERVA = 31;
 const UNIDADES_POR_TIPO = 5;
 
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const REGEX_TELEFONO = /^[0-9+()\s-]{7,15}$/;
+const REGEX_TELEFONO_CELULAR_UY = /^0?9\d{7}$/;
 
 const CATALOGO_HABITACIONES = [
   { id: "standard", tipo: "Standard", precio: 100, unidadesTotales: UNIDADES_POR_TIPO },
@@ -33,6 +33,11 @@ function buscarHabitacion(tipoHabitacionId) {
   return CATALOGO_HABITACIONES.find((habitacion) => habitacion.id === tipoHabitacionId);
 }
 
+function esCelularUruguayoValido(telefono) {
+  const normalizado = telefono.replace(/[\s-]/g, "");
+  return REGEX_TELEFONO_CELULAR_UY.test(normalizado);
+}
+
 function validarReserva(datos, reservasExistentes = []) {
   const errores = [];
   const {
@@ -57,8 +62,8 @@ function validarReserva(datos, reservasExistentes = []) {
   if (!fechaEntrada) errores.push("La fecha de entrada es obligatoria.");
   if (!fechaSalida) errores.push("La fecha de salida es obligatoria.");
 
-  if (telefono && !REGEX_TELEFONO.test(telefono)) {
-    errores.push("El teléfono no tiene un formato válido.");
+  if (telefono && !esCelularUruguayoValido(telefono)) {
+    errores.push("El teléfono debe ser un celular uruguayo válido (ej: 099123456).");
   }
   if (email && !REGEX_EMAIL.test(email)) {
     errores.push("El e-mail no tiene un formato válido.");
@@ -83,8 +88,8 @@ function validarReserva(datos, reservasExistentes = []) {
   if (fechaSalida && !salida) errores.push("La fecha de salida no es válida.");
 
   if (entrada && salida) {
-    if (entrada > salida) {
-      errores.push("La fecha de entrada no puede ser posterior a la fecha de salida.");
+    if (entrada >= salida) {
+      errores.push("La fecha de entrada no puede ser posterior o igual a la fecha de salida.");
     }
 
     if (entrada < hoySinHora()) {

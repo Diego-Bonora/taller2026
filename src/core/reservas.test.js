@@ -61,7 +61,31 @@ describe("validarReserva - formato de contacto", () => {
     const resultado = validarReserva(datosValidos({ telefono: "abc" }));
     expect(resultado.valido).toBe(false);
     expect(resultado.errores).toContain(
-      "El teléfono no tiene un formato válido."
+      "El teléfono debe ser un celular uruguayo válido (ej: 099123456)."
+    );
+  });
+
+  test.each([
+    "099123456",
+    "99123456",
+    "099 123 456",
+  ])("acepta el celular uruguayo válido %s", (telefono) => {
+    const resultado = validarReserva(datosValidos({ telefono }));
+    expect(resultado.valido).toBe(true);
+  });
+
+  test.each([
+    "26001234",
+    "022345678",
+    "0991234",
+    "0991234567",
+    "+59899123456",
+    "+541112345678",
+  ])("rechaza el teléfono inválido para Uruguay %s", (telefono) => {
+    const resultado = validarReserva(datosValidos({ telefono }));
+    expect(resultado.valido).toBe(false);
+    expect(resultado.errores).toContain(
+      "El teléfono debe ser un celular uruguayo válido (ej: 099123456)."
     );
   });
 
@@ -84,7 +108,20 @@ describe("validarReserva - fechas", () => {
     );
     expect(resultado.valido).toBe(false);
     expect(resultado.errores).toContain(
-      "La fecha de entrada no puede ser posterior a la fecha de salida."
+      "La fecha de entrada no puede ser posterior o igual a la fecha de salida."
+    );
+  });
+
+  test("rechaza cuando la fecha de entrada es igual a la de salida", () => {
+    const resultado = validarReserva(
+      datosValidos({
+        fechaEntrada: formatFecha(maniana),
+        fechaSalida: formatFecha(maniana),
+      })
+    );
+    expect(resultado.valido).toBe(false);
+    expect(resultado.errores).toContain(
+      "La fecha de entrada no puede ser posterior o igual a la fecha de salida."
     );
   });
 
